@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://aframe.io/releases/1.0.0/aframe.min.js"></script>
+    </head>
+     <meta charset="utf-8">
+  <title>A-Frame with Countdown and Background Music</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+      body { margin: 0; overflow: hidden; }
+
+      #start-button {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 1em 2em;
+        font-size: 1.5em;
+        background: #222;
+        color: white;
+        border: none;
+        cursor: pointer;
+        z-index: 10;
+      }
+
+      #countdown {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 8em;
+        font-weight: bold;
+        color: white;
+        display: none;
+        z-index: 9;
+        text-shadow: 4px 4px 10px rgba(0,0,0,0.7);
+      }
+    </style>
+
+    <body>
+         <!-- Audio element -->
+    <audio id="bg-music" loop>
+      <source src="https://github.com/29giansa/4.1/raw/refs/heads/main/3Tears_For_Fears_-_Everybody_Wants_To_Rule_The_World._Instrumental_Remastered_._(mp3.pm).mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+
+    <!-- UI elements -->
+    <button id="start-button">Start Experience</button>
+    <div id="countdown">3</div>
+
+        <a-scene>
+        <a-camera> <a-cursor></a-cursor></a-camera>
+        <a-plane position="0 0 -4" color="lightgreen" rotation="-90 0 0" width="20" height="20"></a-plane>
+        <a-box position="0 0 -4" depth="1" height="1" width="1" color="blue"
+        animation="
+        property: position;
+        from: 0 0 -4;
+        to: 0 5 -4;
+        loop: true;
+        dir: alternate;
+        dur: 2500;
+        easing: easeInBack;"
+        animation__2="
+        property: scale;
+        from: 1 1 1;
+        to: 0 0 0;
+        startEvents: click;
+        dur: 0;"></a-box>
+        <a-cone color="red" radius-bottom="1" radius-top="0" height="2" position="-3 0 0"
+        animation="
+        property: position;
+        from: -3 0 0;
+        to: 3 0 0;
+        dur: 3000;
+        loop: true;
+        dir: alternate;
+        easing: easeOutBack;"
+        animation__2="
+        property: scale;
+        from: 1 0 2;
+        to:  0 0 0;
+        startEvents: click;
+        dur: 0;"></a-cone>
+        <a-sphere position="-3 1 -5" radius="0.5" color="yellow"
+        animation="
+        property: position;
+        from: -3 1 -5;
+        to: 3 1 5;
+        loop: true;
+        dir: alternate;
+        dur: 3500;
+        easing: easeInElastic;"
+        animation__2="
+        property: scale;
+        from: 0.5;
+        to: 0;
+        dur: 0;
+        startEvents: click;"></a-sphere>
+        <a-cylinder position="3 5 0" radius="0.5" height="1" color="green"
+        animation="
+        property: position;
+        from: 3 5 0;
+        to: -3 0 0;
+        loop: true;
+        dir: alternate;
+        dur: 1500;
+        easing: easeOutElastic;"
+        animation__2="
+        property: scale;
+        from: 0.5 1;
+        to: 0 0;
+        startEvents: click;
+        dur: 0;"
+        animation__3="
+        property: rotation;
+        from:0 0 0;
+        to: -90 0 0;
+        loop: true;
+        dir: alternate;"></a-cylinder>
+       <a-dodecahedron color="purple" radius="1" position="0 4 5"
+       animation="
+       property: position;
+       from: 0 4 5;
+       to: 0 0 -5;
+       loop: true;
+       dir: alternate;
+       dur: 1000;
+       easing:easeInOutCubic;"
+       animation__2="
+       property: scale;
+       from: 1;
+       to: 0;
+       dur: 0;
+       startEvents: click;" ></a-dodecahedron>
+        </a-scene>
+         <!-- JavaScript -->
+    <script>
+      const music = document.getElementById('bg-music');
+      const startBtn = document.getElementById('start-button');
+      const countdownEl = document.getElementById('countdown');
+
+      startBtn.addEventListener('click', () => {
+        startBtn.style.display = 'none';
+        startCountdown();
+      });
+
+      function startCountdown() {
+        let count = 3;
+        countdownEl.style.display = 'block';
+        countdownEl.textContent = count;
+
+        const interval = setInterval(() => {
+          count--;
+          if (count > 0) {
+            countdownEl.textContent = count;
+          } else {
+            clearInterval(interval);
+            countdownEl.style.display = 'none';
+            music.play();
+          }
+        }, 1000);
+      }
+    </script>
+
+    </body>
+</html>
